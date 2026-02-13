@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import bro from '../assets/bro.png'
 
 export default function Navbar() {
@@ -44,6 +45,46 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const triggerLeafConfetti = () => {
+    // Left side burst
+    confetti({
+      particleCount: 40,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.6 },
+      colors: ['#385040', '#4CAF50', '#8BC34A', '#D4F57B'],
+      shapes: ['circle', 'square'], // canvas-confetti doesn't natively support custom shapes easily without more code, sticking to colors for now or using scalar
+      scalar: 1.2,
+      drift: 0.5,
+      gravity: 1.2,
+      ticks: 200
+    });
+
+    // Right side burst
+    confetti({
+      particleCount: 40,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.6 },
+      colors: ['#385040', '#4CAF50', '#8BC34A', '#D4F57B'],
+      shapes: ['circle', 'square'],
+      scalar: 1.2,
+      drift: -0.5,
+      gravity: 1.2,
+      ticks: 200
+    });
+
+    // Center burst
+    confetti({
+      particleCount: 50,
+      spread: 100,
+      origin: { y: 0.3 },
+      colors: ['#385040', '#4CAF50', '#8BC34A', '#D4F57B'],
+      scalar: 1.5,
+      gravity: 0.8
+    });
+  };
 
   const navLinks = [
     { label: 'Home', path: '/', icon: Home },
@@ -111,7 +152,10 @@ export default function Navbar() {
         {/* Right: Actions */}
         <div className="flex items-center gap-1.5 sm:gap-5">
           {/* Green Icon Circle (Hidden on mobile) */}
-          <div className="w-10 h-10 rounded-full bg-[#D4F57B] hidden sm:flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+          <div
+            onClick={triggerLeafConfetti}
+            className="w-10 h-10 rounded-full bg-[#D4F57B] hidden sm:flex items-center justify-center cursor-pointer hover:scale-110 transition-transform active:scale-90"
+          >
             <Leaf className="w-5 h-5 text-black" />
           </div>
 

@@ -50,6 +50,7 @@ export default function ProductCard({ product, index }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ y: -8 }}
+            onClick={() => navigate(`/product/${id}`)}
             className="group relative bg-gradient-to-br from-white to-[#f0fff4] dark:from-[#1A1A1A] dark:to-[#1F3324] rounded-2xl sm:rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-transparent hover:border-tea-primary/10 overflow-hidden"
         >
             {/* Image Container */}
@@ -65,13 +66,16 @@ export default function ProductCard({ product, index }) {
 
                 {/* Wishlist Button */}
                 <div className="absolute top-4 right-4 z-20">
-                    <button className="p-2.5 rounded-full bg-white/60 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 backdrop-blur-sm transition-all text-red-500 hover:scale-110">
+                    <button
+                        onClick={(e) => { e.stopPropagation(); /* Add wishlist logic */ }}
+                        className="p-2.5 rounded-full bg-white/60 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 backdrop-blur-sm transition-all text-red-500 hover:scale-110"
+                    >
                         <Heart className="w-4 h-4" />
                     </button>
                 </div>
 
                 {/* Product Image */}
-                <Link to={`/product/${id}`} className="block w-full h-full relative z-10">
+                <div className="block w-full h-full relative z-10">
                     <motion.img
                         src={image}
                         alt={name}
@@ -79,7 +83,7 @@ export default function ProductCard({ product, index }) {
                         whileHover={{ scale: 1.1, rotate: 2 }}
                         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                     />
-                </Link>
+                </div>
             </div>
 
             {/* Content */}
@@ -89,11 +93,9 @@ export default function ProductCard({ product, index }) {
                         <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${categoryColor}`}>
                             {category}
                         </p>
-                        <Link to={`/product/${id}`}>
-                            <h3 className="font-display font-bold text-sm sm:text-xl text-foreground group-hover:text-tea-primary transition-colors leading-tight">
-                                {name}
-                            </h3>
-                        </Link>
+                        <h3 className="font-display font-bold text-sm sm:text-xl text-foreground group-hover:text-tea-primary transition-colors leading-tight">
+                            {name}
+                        </h3>
                     </div>
                     <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg">
                         <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
@@ -105,23 +107,34 @@ export default function ProductCard({ product, index }) {
                     {product.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-auto">
-                    <div className="flex flex-col">
+                <div className="mt-auto flex flex-col gap-3">
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-xl font-bold text-foreground">₹{price.toFixed(2)}</span>
                         {originalPrice && (
                             <span className="text-xs text-muted-foreground line-through decoration-red-400/50">₹{originalPrice.toFixed(2)}</span>
                         )}
-                        <span className="text-base sm:text-xl font-bold text-foreground">₹{price.toFixed(2)}</span>
                     </div>
 
-                    <button
-                        onClick={handleAddToCart}
-                        className="relative overflow-hidden group/btn bg-foreground dark:bg-white text-background dark:text-black px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-black/5 hover:shadow-tea-primary/30 transition-all active:scale-95 flex items-center gap-1 sm:gap-2"
-                    >
-                        <span className="absolute inset-0 w-full h-full bg-tea-primary transition-all duration-300 transform translate-y-full group-hover/btn:translate-y-0"></span>
-                        <span className="relative flex items-center gap-2 group-hover/btn:text-white transition-colors">
-                            Add <ShoppingBag className="w-4 h-4" />
-                        </span>
-                    </button>
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/product/${id}`);
+                            }}
+                            className="px-3 py-2.5 rounded-xl text-xs font-bold border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 transition-colors text-center w-full"
+                        >
+                            View Details
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddToCart();
+                            }}
+                            className="bg-[#1A1A1A] text-white px-3 py-2.5 rounded-xl text-xs font-bold shadow-lg hover:shadow-xl hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-2 w-full"
+                        >
+                            <span>Add</span> <ShoppingBag className="w-3.5 h-3.5" />
+                        </button>
+                    </div>
                 </div>
             </div>
         </motion.div>

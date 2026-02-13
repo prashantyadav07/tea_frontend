@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ShieldCheck, Truck, Leaf, Star, Wind, Flame, Bean, Flower2, Utensils } from 'lucide-react';
+import { ShieldCheck, Truck, Leaf, Star, Wind, Flame, Bean, Flower2, Utensils, Trees, Mountain } from 'lucide-react';
 import { ScrollReveal } from '@/components/ScrollAnimations';
 import TeaCarousel from '@/components/TeaCarousel';
 import ProductCard from '@/components/ProductCard';
@@ -215,53 +215,125 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT'S IN YOUR PACK SECTION */}
-      <section ref={packSectionRef} className="bg-white py-12 sm:py-24 px-4 overflow-hidden relative">
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <ScrollReveal>
-            <h2 className="font-display text-4xl sm:text-6xl font-black uppercase text-[#385040] mb-12">
-              What's in Your <br />
-              <span className="text-tea-primary">Pack of Tea?</span>
-            </h2>
-          </ScrollReveal>
+      {/* WHAT'S IN YOUR PACK SECTION (Redesigned) */}
+      <section ref={packSectionRef} className="relative py-24 lg:py-32 overflow-hidden bg-[#FAF9F6]">
+        {/* Abstract Background Elements */}
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-[#385040]/5 -skew-x-12 transform origin-top-right z-0" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#D4F57B]/10 rounded-full blur-3xl z-0" />
 
-          <div className="relative mt-8 sm:mt-16 flex flex-col items-center">
-            {/* Bag Image with Parallax */}
-            <ScrollReveal delay={0.2} className="relative z-10 w-64 sm:w-80 md:w-96 perspective-1000">
-              <motion.div style={{ y: packImageY, rotate: packImageRotate }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+            {/* Left Column: Parallax Visuals */}
+            <div className="relative perspective-1000 group">
+              {/* Main Pack Image */}
+              <motion.div
+                style={{ y: packImageY, rotate: packImageRotate }}
+                className="relative z-20 mx-auto w-64 sm:w-80 md:w-96"
+              >
+                <div className="absolute inset-0 bg-black/20 blur-xl rounded-full transform scale-90 translate-y-10" />
                 <img
-                  src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=600"
-                  alt="Eco-friendly Tea Bag"
-                  className="w-full h-auto drop-shadow-2xl rounded-xl object-cover mask-image-gradient"
-                  style={{ WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}
+                  src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=800"
+                  alt="Premium Tea Pack"
+                  className="w-full h-auto rounded-2xl shadow-2xl relative z-10 transform transition-transform duration-700 group-hover:scale-105"
                 />
               </motion.div>
-              {/* Floating Tea Packets */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-10 -left-10 w-24 sm:w-32 bg-white p-2 rounded-lg shadow-xl transform -rotate-12 border border-black/5"
-              >
-                <div className="w-full aspect-[3/4] bg-[#385040] rounded flex items-center justify-center">
-                  <img src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=600" alt="" />
-                </div>
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-6 -right-8 w-24 sm:w-32 bg-white p-2 rounded-lg shadow-xl transform rotate-6 border border-black/5"
-              >
-                <div className="w-full aspect-[3/4] bg-tea-primary rounded flex items-center justify-center">
-                  <img src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=600" alt="" />
-                </div>
-              </motion.div>
-            </ScrollReveal>
 
-            <ScrollReveal delay={0.4} className="mt-20 max-w-2xl mx-auto">
-              <p className="text-lg sm:text-xl text-[#385040]/80 leading-relaxed font-medium">
-                Fine organic teas nurtured by forests growing harmoniously with nature, blended with quality ingredients from the foothills of Himalayas to the forests of Africa. Borsillah Estates are in regions that not only grow best grade teas but are home to the finest herbs, botanicals & spices.
-              </p>
-            </ScrollReveal>
+              {/* Floating Element 1: Nature */}
+              <motion.div
+                style={{ y: useTransform(packScroll, [0, 1], [0, -50]) }}
+                className="absolute top-10 -left-4 sm:-left-12 z-30 bg-white p-4 rounded-xl shadow-xl border border-black/5 flex items-center gap-3 w-48 sm:w-56"
+              >
+                <div className="w-10 h-10 rounded-full bg-[#D4F57B] flex items-center justify-center text-[#385040]">
+                  <Leaf className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="font-bold text-[#385040] text-sm leading-tight">100% Organic</p>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-wider">Certified Pure</p>
+                </div>
+              </motion.div>
+
+              {/* Floating Element 2: Origin */}
+              <motion.div
+                style={{ y: useTransform(packScroll, [0, 1], [0, 80]) }}
+                className="absolute bottom-20 -right-4 sm:-right-12 z-30 bg-white p-4 rounded-xl shadow-xl border border-black/5 flex items-center gap-3 w-48 sm:w-56"
+              >
+                <div className="w-10 h-10 rounded-full bg-[#385040] flex items-center justify-center text-white">
+                  <Mountain className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="font-bold text-[#385040] text-sm leading-tight">High Altitude</p>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-wider">Himalayan Grown</p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Content */}
+            <div>
+              <ScrollReveal>
+                <span className="text-[#385040] font-bold tracking-[0.2em] uppercase text-sm mb-4 block">Unveiling the Purity</span>
+                <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl font-black text-[#385040] mb-8 leading-[0.9]">
+                  What's in Your <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4F57B] to-[#385040]">Daily Cup?</span>
+                </h2>
+              </ScrollReveal>
+
+              <div className="space-y-8 mt-10">
+                {/* Feature 1 */}
+                <ScrollReveal delay={0.1} className="flex group">
+                  <div className="mr-6 relative">
+                    <div className="w-12 h-12 rounded-full border-2 border-[#385040]/10 flex items-center justify-center group-hover:bg-[#385040] group-hover:text-white transition-colors duration-300">
+                      <Trees className="w-5 h-5" />
+                    </div>
+                    <div className="absolute top-12 left-1/2 w-px h-full bg-[#385040]/10 -translate-x-1/2" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#385040] mb-2">Forest Nurtured</h3>
+                    <p className="text-gray-600 leading-relaxed max-w-md">
+                      Grown in harmony with nature, our tea bushes are shaded by native trees, preserving the delicate ecosystem and enhancing flavor depth.
+                    </p>
+                  </div>
+                </ScrollReveal>
+
+                {/* Feature 2 */}
+                <ScrollReveal delay={0.2} className="flex group">
+                  <div className="mr-6 relative">
+                    <div className="w-12 h-12 rounded-full border-2 border-[#385040]/10 flex items-center justify-center group-hover:bg-[#385040] group-hover:text-white transition-colors duration-300">
+                      <Star className="w-5 h-5" />
+                    </div>
+                    <div className="absolute top-12 left-1/2 w-px h-full bg-[#385040]/10 -translate-x-1/2" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#385040] mb-2">Whole Leaf Quality</h3>
+                    <p className="text-gray-600 leading-relaxed max-w-md">
+                      We use only the finest whole leaves, never dust or fannings. Experience the full spectrum of essential oils and antioxidants.
+                    </p>
+                  </div>
+                </ScrollReveal>
+
+                {/* Feature 3 */}
+                <ScrollReveal delay={0.3} className="flex group">
+                  <div className="mr-6">
+                    <div className="w-12 h-12 rounded-full border-2 border-[#385040]/10 flex items-center justify-center group-hover:bg-[#385040] group-hover:text-white transition-colors duration-300">
+                      <ShieldCheck className="w-5 h-5" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#385040] mb-2">Ethically Sourced</h3>
+                    <p className="text-gray-600 leading-relaxed max-w-md">
+                      From the foothills of the Himalayas to your cup, we ensure fair wages and sustainable practices at every step.
+                    </p>
+                  </div>
+                </ScrollReveal>
+              </div>
+
+              <ScrollReveal delay={0.4} className="mt-12">
+                <Link to="/our-story" className="inline-flex items-center gap-2 text-[#385040] font-bold uppercase tracking-widest text-sm hover:gap-4 transition-all group">
+                  Read our full story <span className="w-8 h-px bg-[#385040] group-hover:w-12 transition-all" />
+                </Link>
+              </ScrollReveal>
+            </div>
+
           </div>
         </div>
       </section>

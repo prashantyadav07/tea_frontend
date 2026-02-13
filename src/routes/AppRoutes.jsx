@@ -9,6 +9,8 @@ import Courses from '@/pages/Courses';
 import Cart from '@/pages/Cart';
 import NotFound from '@/pages/NotFound';
 
+import Login from '@/pages/Login';
+import Signup from '@/pages/Signup';
 
 export default function AppRoutes() {
   return (
@@ -21,6 +23,8 @@ export default function AppRoutes() {
         <Route path="contact" element={<Contact />} />
         <Route path="courses" element={<Courses />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
