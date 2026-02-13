@@ -328,7 +328,7 @@ export default function Home() {
               </div>
 
               <ScrollReveal delay={0.4} className="mt-12">
-                <Link to="/our-story" className="inline-flex items-center gap-2 text-[#385040] font-bold uppercase tracking-widest text-sm hover:gap-4 transition-all group">
+                <Link to="/about" className="inline-flex items-center gap-2 text-[#385040] font-bold uppercase tracking-widest text-sm hover:gap-4 transition-all group">
                   Read our full story <span className="w-8 h-px bg-[#385040] group-hover:w-12 transition-all" />
                 </Link>
               </ScrollReveal>
@@ -339,20 +339,20 @@ export default function Home() {
       </section>
 
       {/* BEST QUALITY INGREDIENTS SECTION */}
-      <section ref={ingredientsRef} className="bg-gradient-to-b from-white to-[#F5F5F0] py-12 sm:py-24 px-4 overflow-hidden relative border-t border-black/50 min-h-[150vh]">
-        <motion.div style={{ opacity: sectionOpacity }} className="sticky top-0 h-screen flex flex-col justify-center items-center">
+      <section ref={ingredientsRef} className="bg-gradient-to-b from-white to-[#F5F5F0] py-8 sm:py-24 px-4 overflow-hidden relative border-t border-black/50 min-h-[100vh] sm:min-h-[150vh]">
+        <motion.div style={{ opacity: sectionOpacity }} className="sticky top-0 h-[85vh] sm:h-screen flex flex-col justify-center items-center">
           <ScrollReveal>
-            <h2 className="font-display text-4xl sm:text-6xl font-black uppercase text-[#385040] mb-8 relative z-20">
+            <h2 className="font-display text-3xl sm:text-6xl font-black uppercase text-[#385040] mb-4 sm:mb-8 relative z-20 text-center">
               Best Quality <br />
               <span className="text-tea-primary">Ingredients</span>
             </h2>
           </ScrollReveal>
 
-          {/* Wrapper for Circular Layout */}
-          <div className="relative w-full max-w-[1000px] aspect-square flex items-center justify-center -mt-10 sm:mt-0">
+          {/* Wrapper for Circular Layout — responsive on all screen sizes */}
+          <div className="relative w-[320px] h-[320px] sm:w-[90vw] sm:h-auto sm:max-w-[1000px] sm:aspect-square flex items-center justify-center -mt-4 sm:mt-0">
 
             {/* Central Image */}
-            <div className="absolute z-10 w-48 h-48 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full border-[1px] border-black/5 shadow-2xl p-2 bg-white">
+            <div className="absolute z-10 w-32 h-32 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full border-[1px] border-black/5 shadow-2xl p-1.5 sm:p-2 bg-white">
               <div className="w-full h-full rounded-full overflow-hidden relative">
                 <img
                   src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&q=80&w=600"
@@ -363,12 +363,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Rotating Ring Container (Hidden on Mobile, Visible on Desktop/Tablet) */}
+            {/* Rotating Ring Container — visible on ALL screen sizes */}
+            {/* Desktop ring (md+) */}
             <motion.div
               style={{ rotate: circleRotate }}
               className="absolute w-full h-full hidden md:flex items-center justify-center pointer-events-none"
             >
-              {ingredients.map((item, index) => {
+              {ingredients.map((item) => {
                 const angleRad = (item.angle * Math.PI) / 180;
                 const x = radius * Math.cos(angleRad);
                 const y = radius * Math.sin(angleRad);
@@ -384,7 +385,6 @@ export default function Home() {
                       y: "-50%"
                     }}
                   >
-                    {/* The actual content that stays upright */}
                     <motion.div
                       style={{ rotate: itemRotate }}
                       className="flex flex-col items-center gap-2 p-2"
@@ -402,20 +402,44 @@ export default function Home() {
               })}
             </motion.div>
 
-            {/* Mobile Stack View (Visible only on Mobile) */}
-            <div className="md:hidden flex flex-wrap justify-center gap-4 mt-64 relative z-20 px-4">
-              {ingredients.map((item) => (
-                <div key={item.name} className="flex flex-col items-center gap-2 bg-white/80 backdrop-blur p-4 rounded-xl shadow-sm border border-black/5 w-[140px]">
-                  <div className="w-10 h-10 rounded-full bg-[#385040] flex items-center justify-center text-white">
-                    <item.icon className="w-5 h-5" />
-                  </div>
-                  <div className="text-center">
-                    <span className="font-bold font-sans text-xs uppercase tracking-widest block text-[#385040]">{item.name}</span>
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{item.origin}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Mobile ring (below md) — smaller radius, same scroll-driven rotation */}
+            <motion.div
+              style={{ rotate: circleRotate }}
+              className="absolute w-full h-full flex md:hidden items-center justify-center pointer-events-none"
+            >
+              {ingredients.map((item) => {
+                const mobileRadius = 130; // Smaller radius for mobile screens
+                const angleRad = (item.angle * Math.PI) / 180;
+                const x = mobileRadius * Math.cos(angleRad);
+                const y = mobileRadius * Math.sin(angleRad);
+
+                return (
+                  <motion.div
+                    key={item.name}
+                    className="absolute"
+                    style={{
+                      left: `calc(50% + ${x}px)`,
+                      top: `calc(50% + ${y}px)`,
+                      x: "-50%",
+                      y: "-50%"
+                    }}
+                  >
+                    <motion.div
+                      style={{ rotate: itemRotate }}
+                      className="flex flex-col items-center gap-1"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-[#385040] flex items-center justify-center text-white shadow-lg ring-2 ring-white/50">
+                        <item.icon className="w-5 h-5" />
+                      </div>
+                      <div className="text-center w-24">
+                        <span className="font-bold font-sans text-[9px] uppercase tracking-wider block text-[#385040] bg-white/60 backdrop-blur-md px-2 py-0.5 rounded-full shadow-sm border border-black/5 mx-auto w-fit">{item.name}</span>
+                        <span className="text-[8px] text-muted-foreground uppercase tracking-wider block mt-0.5 font-medium">{item.origin}</span>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
 
           </div>
 

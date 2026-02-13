@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import TopRibbon from '@/components/TopRibbon';
 
 export default function MainLayout() {
+  console.log('[MainLayout] Rendering, current location:', window.location.pathname);
   const location = useLocation();
 
   return (

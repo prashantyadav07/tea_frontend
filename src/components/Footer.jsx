@@ -9,13 +9,13 @@ export default function Footer() {
         { label: 'Black Tea', path: '/shop' },
         { label: 'Herbal Blends', path: '/shop' },
         { label: 'Accessories', path: '/shop' },
-        { label: 'Gift Sets', path: '/shop' },
+        { label: 'Shipping Policy', path: '/shipping-policy' },
     ];
 
     const companyLinks = [
         { label: 'Our Story', path: '/about' },
-        { label: 'Sustainability', path: '/about' },
-        { label: 'Blog', path: '/about' },
+        { label: 'Sustainability', path: '/sustainability' },
+        { label: 'Blog', path: '/blog' },
         { label: 'Contact', path: '/contact' },
     ];
 
@@ -129,8 +129,8 @@ export default function Footer() {
                 <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
                     <p>&copy; {new Date().getFullYear()} Borsillah. All rights reserved.</p>
                     <div className="flex gap-6 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-gray-300 transition-colors">Terms of Service</a>
+                        <Link to="/privacy-policy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
+                        <Link to="/terms-of-service" className="hover:text-gray-300 transition-colors">Terms of Service</Link>
                     </div>
                 </div>
             </div>
