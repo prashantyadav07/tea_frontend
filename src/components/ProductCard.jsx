@@ -50,10 +50,10 @@ export default function ProductCard({ product, index }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             whileHover={{ y: -8 }}
-            className="group relative bg-gradient-to-br from-white to-[#f0fff4] dark:from-[#1A1A1A] dark:to-[#1F3324] rounded-3xl p-4 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-transparent hover:border-tea-primary/10"
+            className="group relative bg-gradient-to-br from-white to-[#f0fff4] dark:from-[#1A1A1A] dark:to-[#1F3324] rounded-2xl sm:rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-transparent hover:border-tea-primary/10 overflow-hidden"
         >
             {/* Image Container */}
-            <div className={`relative h-64 w-full rounded-2xl bg-gradient-to-br ${bgGradient} dark:from-white/5 dark:to-white/10 flex items-center justify-center mb-6 overflow-hidden`}>
+            <div className={`relative h-64 sm:h-72 w-full bg-gradient-to-br ${bgGradient} dark:from-white/5 dark:to-white/10 flex items-center justify-center overflow-hidden`}>
                 {/* Badge */}
                 {badge && (
                     <div className="absolute top-4 left-4 z-20">
@@ -75,7 +75,7 @@ export default function ProductCard({ product, index }) {
                     <motion.img
                         src={image}
                         alt={name}
-                        className="w-full h-full object-contain drop-shadow-2xl"
+                        className="w-full h-full object-cover drop-shadow-2xl"
                         whileHover={{ scale: 1.1, rotate: 2 }}
                         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                     />
@@ -83,14 +83,14 @@ export default function ProductCard({ product, index }) {
             </div>
 
             {/* Content */}
-            <div className="px-2 pb-2">
+            <div className="px-2 sm:px-4 pb-2 sm:pb-4 pt-2 sm:pt-4">
                 <div className="flex justify-between items-start mb-3">
                     <div>
                         <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${categoryColor}`}>
                             {category}
                         </p>
                         <Link to={`/product/${id}`}>
-                            <h3 className="font-display font-bold text-xl text-foreground group-hover:text-tea-primary transition-colors leading-tight">
+                            <h3 className="font-display font-bold text-sm sm:text-xl text-foreground group-hover:text-tea-primary transition-colors leading-tight">
                                 {name}
                             </h3>
                         </Link>
@@ -101,21 +101,21 @@ export default function ProductCard({ product, index }) {
                     </div>
                 </div>
 
-                <p className="text-sm text-muted-foreground line-clamp-2 mb-6 h-10">
+                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-3 sm:mb-6 h-8 sm:h-10 hidden sm:block">
                     {product.description}
                 </p>
 
                 <div className="flex items-center justify-between mt-auto">
                     <div className="flex flex-col">
                         {originalPrice && (
-                            <span className="text-xs text-muted-foreground line-through decoration-red-400/50">${originalPrice.toFixed(2)}</span>
+                            <span className="text-xs text-muted-foreground line-through decoration-red-400/50">₹{originalPrice.toFixed(2)}</span>
                         )}
-                        <span className="text-xl font-bold text-foreground">${price.toFixed(2)}</span>
+                        <span className="text-base sm:text-xl font-bold text-foreground">₹{price.toFixed(2)}</span>
                     </div>
 
                     <button
                         onClick={handleAddToCart}
-                        className="relative overflow-hidden group/btn bg-foreground dark:bg-white text-background dark:text-black px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-black/5 hover:shadow-tea-primary/30 transition-all active:scale-95 flex items-center gap-2"
+                        className="relative overflow-hidden group/btn bg-foreground dark:bg-white text-background dark:text-black px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold shadow-lg shadow-black/5 hover:shadow-tea-primary/30 transition-all active:scale-95 flex items-center gap-1 sm:gap-2"
                     >
                         <span className="absolute inset-0 w-full h-full bg-tea-primary transition-all duration-300 transform translate-y-full group-hover/btn:translate-y-0"></span>
                         <span className="relative flex items-center gap-2 group-hover/btn:text-white transition-colors">

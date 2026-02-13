@@ -66,7 +66,7 @@ export default function TeaCarousel() {
     }, []);
 
     return (
-        <div className="relative w-full h-[600px] lg:h-[800px] overflow-hidden bg-tea-dark rounded-[3rem] my-20">
+        <div className="relative w-full h-[400px] sm:h-[600px] lg:h-[800px] overflow-hidden bg-tea-dark rounded-[1.5rem] sm:rounded-[3rem] my-8 sm:my-20">
             <AnimatePresence initial={false} custom={direction}>
                 <motion.div
                     key={currentIndex}
@@ -98,7 +98,7 @@ export default function TeaCarousel() {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="font-display text-5xl lg:text-8xl text-white font-bold mb-6 uppercase tracking-tighter"
+                            className="font-display text-3xl sm:text-5xl lg:text-8xl text-white font-bold mb-4 sm:mb-6 uppercase tracking-tighter"
                         >
                             {teaImages[currentIndex].title}
                         </motion.h2>
@@ -115,10 +115,10 @@ export default function TeaCarousel() {
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            <div className="absolute inset-x-0 bottom-12 flex items-center justify-between px-8 lg:px-20 z-10">
+            <div className="absolute inset-x-0 bottom-6 sm:bottom-12 flex items-center justify-between px-4 sm:px-8 lg:px-20 z-10">
                 <button
                     onClick={prevSlide}
-                    className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all group"
+                    className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all group"
                 >
                     <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
                 </button>
@@ -140,7 +140,7 @@ export default function TeaCarousel() {
 
                 <button
                     onClick={nextSlide}
-                    className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all group"
+                    className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all group"
                 >
                     <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </button>

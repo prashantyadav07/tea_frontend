@@ -8,7 +8,7 @@ export default function MainLayout() {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-background overflow-x-hidden">
       <TopRibbon />
       <Navbar />
       <main className="flex-grow">

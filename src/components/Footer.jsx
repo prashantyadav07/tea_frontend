@@ -26,10 +26,10 @@ export default function Footer() {
 
             {/* Newsletter Section */}
             <div className="border-b border-white/10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                         <div>
-                            <h3 className="font-display text-3xl font-bold mb-2">
+                            <h3 className="font-display text-2xl sm:text-3xl font-bold mb-2">
                                 Stay in the <span className="text-tea-primary italic">Connection</span>
                             </h3>
                             <p className="text-gray-400 text-sm max-w-md">
@@ -52,10 +52,10 @@ export default function Footer() {
             </div>
 
             {/* Main Footer */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
                     {/* Brand */}
-                    <div className="lg:col-span-1">
+                    <div className="col-span-2 lg:col-span-1">
                         <Link to="/" className="flex items-center gap-2 mb-6">
                             <div className="w-16 h-16  rounded-xl flex items-center justify-center">
                                 <img src={bro} alt="" />

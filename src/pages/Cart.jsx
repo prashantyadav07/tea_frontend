@@ -62,7 +62,7 @@ export default function Cart() {
     }
 
     return (
-        <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-background">
+        <div className="min-h-screen pt-28 sm:pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-background">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-12">
@@ -98,12 +98,12 @@ export default function Cart() {
                                         {/* Product Image */}
                                         <Link
                                             to={`/product/${item.id}`}
-                                            className={`flex-shrink-0 w-full sm:w-32 h-48 sm:h-32 rounded-xl bg-gradient-to-br ${item.bgGradient} dark:from-white/5 dark:to-white/10 flex items-center justify-center overflow-hidden`}
+                                            className={`flex-shrink-0 w-full sm:w-32 h-56 sm:h-32 rounded-xl bg-gradient-to-br ${item.bgGradient} dark:from-white/5 dark:to-white/10 flex items-center justify-center overflow-hidden`}
                                         >
                                             <img
                                                 src={item.image}
                                                 alt={item.name}
-                                                className="w-full h-full object-contain drop-shadow-xl hover:scale-110 transition-transform p-4"
+                                                className="w-full h-full object-cover drop-shadow-xl hover:scale-110 transition-transform"
                                             />
                                         </Link>
 
@@ -153,10 +153,10 @@ export default function Cart() {
                                                 {/* Price */}
                                                 <div className="text-right">
                                                     <p className="text-2xl font-bold text-foreground">
-                                                        ${(item.price * item.quantity).toFixed(2)}
+                                                        ₹{(item.price * item.quantity).toFixed(2)}
                                                     </p>
                                                     <p className="text-xs text-muted-foreground">
-                                                        ${item.price.toFixed(2)} each
+                                                        ₹{item.price.toFixed(2)} each
                                                     </p>
                                                 </div>
                                             </div>
@@ -175,20 +175,20 @@ export default function Cart() {
                             <div className="space-y-4 mb-6">
                                 <div className="flex justify-between text-muted-foreground">
                                     <span>Subtotal</span>
-                                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                                    <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-muted-foreground">
                                     <span>Shipping</span>
-                                    <span className="font-semibold">${shipping.toFixed(2)}</span>
+                                    <span className="font-semibold">₹{shipping.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-muted-foreground">
                                     <span>Tax (8%)</span>
-                                    <span className="font-semibold">${tax.toFixed(2)}</span>
+                                    <span className="font-semibold">₹{tax.toFixed(2)}</span>
                                 </div>
                                 <div className="border-t border-border pt-4">
                                     <div className="flex justify-between items-center">
                                         <span className="text-xl font-bold text-foreground">Total</span>
-                                        <span className="text-3xl font-bold text-tea-primary">${total.toFixed(2)}</span>
+                                        <span className="text-3xl font-bold text-tea-primary">₹{total.toFixed(2)}</span>
                                     </div>
                                 </div>
                             </div>

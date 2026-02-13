@@ -27,7 +27,7 @@ export default function TopRibbon() {
                         ease: "linear",
                     },
                 }}
-                className="inline-flex gap-24 items-center px-4"
+                className="inline-flex gap-8 sm:gap-24 items-center px-4"
             >
                 {content.map((item, index) => {
                     const Icon = item.icon;

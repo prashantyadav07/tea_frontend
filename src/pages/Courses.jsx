@@ -46,14 +46,14 @@ export default function Courses() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-white pt-20 sm:pt-24">
       {/* Page Header */}
       <section className="relative py-20 overflow-hidden bg-[#385040]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <ScrollReveal>
             <span className="px-4 py-1 bg-tea-primary/20 text-tea-primary rounded-full text-xs font-bold uppercase tracking-widest mb-6 inline-block">Learning Academy</span>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white mb-4 sm:mb-6 uppercase tracking-tighter">
               Master the Craft <br /><span className="text-tea-primary italic">of Tea</span>
             </h1>
             <p className="text-xl text-white/70 max-w-2xl mx-auto font-medium">
@@ -64,13 +64,13 @@ export default function Courses() {
       </section>
 
       {/* Courses Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-10">
           {courses.map((course, i) => (
             <ScrollReveal key={course.id} delay={i * 0.1}>
-              <div className="group bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col sm:flex-row h-full">
+              <div className="group bg-white border border-gray-100 rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col sm:flex-row h-full">
                 {/* Course Header Image */}
-                <div className="sm:w-2/5 h-64 sm:h-auto overflow-hidden relative">
+                <div className="sm:w-2/5 h-48 sm:h-64 sm:h-auto overflow-hidden relative">
                   <img src={course.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={course.title} />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                   <div className="absolute top-4 left-4">
@@ -81,7 +81,7 @@ export default function Courses() {
                 </div>
 
                 {/* Course Content */}
-                <div className="p-8 sm:w-3/5 flex flex-col">
+                <div className="p-5 sm:p-8 sm:w-3/5 flex flex-col">
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={14} className={i < Math.floor(course.rating) ? "text-amber-400 fill-amber-400" : "text-gray-200"} />
@@ -89,7 +89,7 @@ export default function Courses() {
                     <span className="text-xs font-bold text-gray-500 ml-2">{course.rating} Rating</span>
                   </div>
 
-                  <h3 className="text-2xl font-black text-black mb-4 group-hover:text-tea-primary transition-colors uppercase tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-black text-black mb-3 sm:mb-4 group-hover:text-tea-primary transition-colors uppercase tracking-tight">
                     {course.title}
                   </h3>
 
@@ -120,8 +120,8 @@ export default function Courses() {
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-gray-50 py-24 rounded-[4rem] mx-4 mb-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="bg-gray-50 py-16 sm:py-24 rounded-[2rem] sm:rounded-[4rem] mx-2 sm:mx-4 mb-10 sm:mb-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center text-black">
             <ScrollReveal>
               <div className="flex flex-col items-center">

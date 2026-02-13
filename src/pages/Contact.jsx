@@ -5,12 +5,12 @@ import { ScrollReveal } from '@/components/ScrollAnimations';
 export default function Contact() {
   return (
     <div className="min-h-screen pt-32 pb-20 px-4 bg-background">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
         {/* Contact Info */}
         <div className="space-y-12">
           <ScrollReveal>
-            <h1 className="font-display text-6xl font-black mb-6">
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black mb-4 sm:mb-6">
               Let's <span className="text-tea-primary italic">Talk</span> Tea
             </h1>
             <p className="text-xl text-muted-foreground">

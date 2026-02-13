@@ -19,10 +19,10 @@ export default function ProductDetails() {
                     <ArrowLeft className="w-4 h-4" /> Back to Shop
                 </Link>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
                     {/* Left Column: Image */}
                     <div className="relative group">
-                        <div className={`relative bg-white dark:bg-[#1E1E1E] rounded-[2.5rem] shadow-2xl shadow-black/5 overflow-hidden aspect-[4/5] lg:aspect-square flex items-center justify-center p-12 border border-white/50 dark:border-white/5`}>
+                        <div className={`relative bg-white dark:bg-[#1E1E1E] rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl shadow-black/5 overflow-hidden aspect-[4/5] lg:aspect-square flex items-center justify-center p-6 sm:p-12 border border-white/50 dark:border-white/5`}>
                             <motion.img
                                 initial={{ scale: 0.8, opacity: 0, rotate: -10 }}
                                 animate={{ scale: 1, opacity: 1, rotate: 0 }}
@@ -58,13 +58,13 @@ export default function ProductDetails() {
                                 <span className="text-tea-primary font-bold text-sm uppercase tracking-[0.2em]">{product.category}</span>
                             </div>
 
-                            <h1 className="font-display text-5xl md:text-7xl text-foreground mb-6 leading-[1.1]">
+                            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-foreground mb-4 sm:mb-6 leading-[1.1]">
                                 {product.name.split(' ')[0]} <br />
                                 <span className="italic text-tea-primary">{product.name.split(' ').slice(1).join(' ')}</span>
                             </h1>
 
-                            <div className="flex items-end gap-6 mb-8 border-b border-border pb-8">
-                                <span className="text-4xl font-bold text-foreground font-display">${product.price.toFixed(2)}</span>
+                            <div className="flex flex-wrap items-end gap-4 sm:gap-6 mb-6 sm:mb-8 border-b border-border pb-6 sm:pb-8">
+                                <span className="text-3xl sm:text-4xl font-bold text-foreground font-display">₹{product.price.toFixed(2)}</span>
                                 <div className="flex items-center gap-1 mb-2">
                                     {[...Array(5)].map((_, i) => (
                                         <Star key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`} />
@@ -82,7 +82,7 @@ export default function ProductDetails() {
                                 <label className="text-sm font-bold text-foreground uppercase tracking-wider">Select Size</label>
                                 <div className="flex flex-wrap gap-3">
                                     {['50g Sample', '100g Standard', '250g Value'].map((size, i) => (
-                                        <button key={size} className={`px-8 py-3 rounded-full border-2 font-bold transition-all ${i === 1 ? 'bg-foreground text-background border-foreground' : 'border-border text-foreground hover:border-tea-primary'}`}>
+                                        <button key={size} className={`px-4 sm:px-8 py-2.5 sm:py-3 rounded-full border-2 font-bold transition-all text-sm sm:text-base ${i === 1 ? 'bg-foreground text-background border-foreground' : 'border-border text-foreground hover:border-tea-primary'}`}>
                                             {size}
                                         </button>
                                     ))}
@@ -91,7 +91,7 @@ export default function ProductDetails() {
 
                             {/* Actions */}
                             <div className="flex gap-4">
-                                <button className="flex-1 bg-tea-primary hover:bg-orange-600 text-white font-bold py-5 px-10 rounded-[2rem] shadow-xl shadow-tea-primary/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg">
+                                <button className="flex-1 bg-tea-primary hover:bg-orange-600 text-white font-bold py-4 sm:py-5 px-6 sm:px-10 rounded-[2rem] shadow-xl shadow-tea-primary/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg">
                                     <ShoppingBag className="w-5 h-5" />
                                     Add to Cart
                                 </button>
@@ -101,7 +101,7 @@ export default function ProductDetails() {
                             </div>
 
                             {/* Brewing Guide */}
-                            <div className="grid grid-cols-3 gap-4 mt-12 bg-white dark:bg-[#1E1E1E] p-6 rounded-3xl shadow-sm border border-border/50">
+                            <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-8 sm:mt-12 bg-white dark:bg-[#1E1E1E] p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-border/50">
                                 <div className="flex flex-col items-center text-center gap-2">
                                     <div className="w-10 h-10 rounded-full bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-tea-primary">
                                         <Thermometer className="w-5 h-5" />

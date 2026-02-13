@@ -4,7 +4,7 @@ import { teaProducts } from '@/data/products';
 
 export default function Shop() {
     return (
-        <div className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-background">
+        <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-background">
             <div className="max-w-7xl mx-auto">
 
                 {/* Header */}
