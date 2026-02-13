@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf } from 'lucide-react';
+import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import bro from '../assets/bro.png'
 
@@ -46,11 +46,10 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Shop', path: '/shop' },
-    { label: 'About', path: '/about' },
-
-    { label: 'Contact', path: '/contact' },
+    { label: 'Home', path: '/', icon: Home },
+    { label: 'Shop', path: '/shop', icon: Store },
+    { label: 'Our Story', path: '/about', icon: ScrollText },
+    { label: 'Contact', path: '/contact', icon: Mail },
   ];
 
   return (
@@ -80,12 +79,21 @@ export default function Navbar() {
             <NavLink
               key={link.path}
               to={link.path}
-              className={({ isActive }) =>
-                `hidden lg:block text-[11px] font-bold tracking-widest uppercase transition-colors ${isActive ? 'text-black' : 'text-gray-400 hover:text-black'
-                }`
-              }
+              className="hidden lg:flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase transition-colors group text-black relative py-1"
             >
-              {link.label}
+              {({ isActive }) => (
+                <>
+                  <link.icon className={`w-4 h-4 transition-colors ${isActive ? 'text-tea-primary' : 'text-black group-hover:text-tea-primary'}`} />
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-underline"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-tea-primary rounded-full"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </>
+              )}
             </NavLink>
           ))}
         </div>
@@ -140,10 +148,11 @@ export default function Navbar() {
                   to={link.path}
                   onClick={() => setIsOpen(false)}
                   className={({ isActive }) =>
-                    `text-lg sm:text-xl font-black uppercase tracking-tighter transition-colors ${isActive ? 'text-tea-primary' : 'text-gray-400 hover:text-black'
+                    `flex items-center gap-4 text-lg sm:text-xl font-black uppercase tracking-tighter transition-colors ${isActive ? 'text-tea-primary' : 'text-black hover:opacity-75'
                     }`
                   }
                 >
+                  <link.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   {link.label}
                 </NavLink>
               ))}
