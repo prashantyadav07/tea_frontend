@@ -6,6 +6,7 @@ import { ScrollReveal } from '@/components/ScrollAnimations';
 import TeaCarousel from '@/components/TeaCarousel';
 import ProductCard from '@/components/ProductCard';
 import brand from '@/assets/brandwo.png';
+import bro from '../assets/bro.png';
 import { teaProducts } from '@/data/products';
 
 export default function Home() {
@@ -43,9 +44,11 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#008001] to-[#2E4235]" />
 
         <div className="relative z-10 w-full h-full max-w-[1440px] mx-auto flex flex-col items-center justify-center px-4 overflow-hidden">
-
+          <div className='h-16 -mt-40  md:hidden'>
+            <img className='h-18 mt-10 ' src={bro} alt="" />
+          </div>
           {/* Main Typography */}
-          <div className="flex flex-col items-center text-center -mt-16 sm:-mt-20 px-2 w-full">
+          <div className="flex flex-col mt-20 items-center text-center -mt-16 sm:-mt-20 px-2 w-full">
             <motion.h1
               style={{ y: heroText1Y }}
               initial={{ opacity: 0, y: 50 }}
@@ -112,7 +115,7 @@ export default function Home() {
             initial={{ y: 150, opacity: 0, rotate: 5 }}
             animate={{ y: 0, opacity: 1, rotate: 0 }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="absolute top-[56%]  lg:top-[46%] left-1/2 z-20 pointer-events-none w-[95vw]  max-w-[600px]"
+            className="absolute top-[60%]  lg:top-[46%] left-1/2 z-20 pointer-events-none w-[95vw]  max-w-[600px]"
           >
             <img
               src={brand}
