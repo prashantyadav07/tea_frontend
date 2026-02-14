@@ -31,7 +31,7 @@ export default function About() {
     <div ref={containerRef} className="bg-[#FAF9F6] min-h-screen overflow-hidden">
 
       {/* HERO SECTION */}
-      <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[70vh] sm:h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         {/* Parallax Background Image */}
         <motion.div
           style={{ y: isMobile ? 0 : heroImageY }}
@@ -52,25 +52,28 @@ export default function About() {
         >
           <motion.span
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="block text-[#FAF9F6] drop-shadow-md text-sm md:text-base font-sans font-bold uppercase tracking-[0.3em] mb-4 mt-20 md:mt-0"
+            className="block text-[#FAF9F6] drop-shadow-md text-sm md:text-base font-sans font-bold uppercase tracking-[0.3em] mb-4"
           >
             EST. 1974
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-display font-bold text-5xl sm:text-7xl md:text-8xl text-white leading-[0.9] tracking-tight mb-8 drop-shadow-lg"
+            className="font-display font-bold text-4xl sm:text-7xl md:text-8xl text-white leading-[0.9] tracking-tight mb-6 sm:mb-8 drop-shadow-lg"
           >
             Legacy in <br /> <span className="italic font-serif font-medium text-[#D4F57B]">Every Leaf</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-white/90 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md"
+            className="text-white/90 text-base sm:text-xl max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md px-2"
           >
             50 years of mastery, one family's unwavering promise, and a journey from a bicycle to the world.
           </motion.p>
