@@ -1,8 +1,22 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 
-// Lazy-load pages to avoid circular dependencies and huge initial bundles
+// ──────────────────────────────────────────────────────────
+// INDUSTRY-GRADE ROUTING: Lazy + Eager Prefetch
+//
+// Strategy:
+//   1. All pages use React.lazy() so the initial render is lightweight
+//   2. On first mount, we eagerly prefetch ALL page chunks in parallel
+//   3. By the time a user clicks a link (100ms+ later), the chunk is
+//      already cached in memory → instant transitions, zero spinners
+//
+// This avoids:
+//   - Static import crashes (WebGL/three.js init race conditions)
+//   - Loading spinners on navigation
+//   - White screen flashes
+// ──────────────────────────────────────────────────────────
+
 const Home = lazy(() => import('../pages/Home'));
 const Shop = lazy(() => import('../pages/Shop'));
 const ProductDetails = lazy(() => import('../pages/ProductDetails'));
@@ -19,40 +33,57 @@ const ShippingPolicy = lazy(() => import('../pages/ShippingPolicy'));
 const Sustainability = lazy(() => import('../pages/Sustainability'));
 const Blog = lazy(() => import('../pages/Blog'));
 
-// Minimal fallback to avoid "circle loader" flash, just a clean background
-function PageLoader() {
-  return <div className="min-h-screen bg-[#F9F9F9]" />;
+// Prefetch all page chunks immediately after first render
+function usePrefetchAllRoutes() {
+  useEffect(() => {
+    // Fire all imports in parallel — they cache in Vite's module system
+    import('../pages/Home');
+    import('../pages/Shop');
+    import('../pages/ProductDetails');
+    import('../pages/About');
+    import('../pages/Contact');
+    import('../pages/Courses');
+    import('../pages/Cart');
+    import('../pages/NotFound');
+    import('../pages/Login');
+    import('../pages/Signup');
+    import('../pages/PrivacyPolicy');
+    import('../pages/TermsOfService');
+    import('../pages/ShippingPolicy');
+    import('../pages/Sustainability');
+    import('../pages/Blog');
+  }, []);
 }
 
 export default function AppRoutes() {
+  usePrefetchAllRoutes();
+
   return (
-    <Suspense fallback={<PageLoader />}>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="shop" element={<Shop />} />
-          <Route path="product/:id" element={<ProductDetails />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="courses" element={<Courses />} />
-          <Route path="cart" element={<Cart />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+        <Route path="product/:id" element={<ProductDetails />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="courses" element={<Courses />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
 
-          {/* Footer Pages */}
-          <Route path="privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="terms-of-service" element={<TermsOfService />} />
-          <Route path="shipping-policy" element={<ShippingPolicy />} />
-          <Route path="sustainability" element={<Sustainability />} />
-          <Route path="blog" element={<Blog />} />
+        {/* Footer Pages */}
+        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="terms-of-service" element={<TermsOfService />} />
+        <Route path="shipping-policy" element={<ShippingPolicy />} />
+        <Route path="sustainability" element={<Sustainability />} />
+        <Route path="blog" element={<Blog />} />
 
-          {/* Alias for terms */}
-          <Route path="terms" element={<Navigate to="/terms-of-service" replace />} />
+        {/* Alias for terms */}
+        <Route path="terms" element={<Navigate to="/terms-of-service" replace />} />
 
-          {/* 404 Page */}
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </Suspense>
+        {/* 404 Page */}
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }

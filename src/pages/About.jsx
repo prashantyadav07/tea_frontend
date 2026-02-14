@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ScrollReveal } from '@/components/ScrollAnimations';
 import { RevealWaveImage } from '@/components/ui/reveal-wave-image';
@@ -6,6 +6,15 @@ import brand from '@/assets/brandwo.png';
 
 export default function About() {
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -25,11 +34,11 @@ export default function About() {
       <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         {/* Parallax Background Image */}
         <motion.div
-          style={{ y: heroImageY }}
+          style={{ y: isMobile ? 0 : heroImageY }}
           className="absolute inset-0 z-0"
         >
           <img
-            src="https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&q=80&w=1920"
+            src="https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?auto=format&fit=crop&q=75&w=1280"
             alt="Tea Garden Dawn"
             className="w-full h-full object-cover brightness-[0.6] scale-110"
           />
@@ -38,7 +47,7 @@ export default function About() {
 
         {/* Hero Content */}
         <motion.div
-          style={{ y: heroTextY }}
+          style={{ y: isMobile ? 0 : heroTextY }}
           className="relative z-10 text-center px-4 max-w-5xl mx-auto"
         >
           <motion.span
@@ -103,7 +112,7 @@ export default function About() {
           <div className="order-1 md:order-2 relative">
             <ScrollReveal delay={0.2} className="relative z-10 w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 bg-gray-200">
               <RevealWaveImage
-                src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=800"
+                src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=75&w=600"
                 alt="Vintage Bicycle"
                 className="w-full h-full object-cover sepia-[0.3]"
               />
@@ -140,7 +149,7 @@ export default function About() {
 
             <ScrollReveal className="relative z-10 w-full aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white bg-gray-200">
               <img
-                src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?auto=format&fit=crop&q=80&w=800"
+                src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?auto=format&fit=crop&q=75&w=600"
                 alt="Tasting Tea"
                 loading="lazy"
                 className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-1000"
@@ -183,7 +192,7 @@ export default function About() {
           <div className="order-1 md:order-2 relative">
             <ScrollReveal delay={0.2} className="relative z-10 w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl -rotate-2 hover:rotate-0 transition-transform duration-700 bg-gray-200">
               <RevealWaveImage
-                src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=800"
+                src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=75&w=600"
                 alt="Tea Cup"
                 className="w-full h-full object-cover"
               />
