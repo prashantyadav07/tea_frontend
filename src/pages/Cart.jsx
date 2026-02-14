@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Leaf } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Cart() {
     const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        // Load cart from localStorage
         const savedCart = localStorage.getItem('teaCart');
         if (savedCart) {
             setCartItems(JSON.parse(savedCart));
         }
+
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const updateQuantity = (id, change) => {
@@ -32,29 +38,27 @@ export default function Cart() {
     };
 
     const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const shipping = 5.00;
-    const tax = subtotal * 0.08;
-    const total = subtotal + shipping + tax;
+    const shipping = subtotal > 500 ? 0 : 50.00;
+    const total = subtotal + shipping;
 
     if (cartItems.length === 0) {
         return (
-            <div className="min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-background flex items-center justify-center">
-                <div className="text-center">
+            <div className="min-h-screen bg-[#F9F9F9] flex items-center justify-center font-serif">
+                <div className="text-center max-w-md mx-auto px-6 bg-white p-12 rounded-xl shadow-sm border border-gray-100">
                     <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-tea-primary/20 to-tea-primary/5 rounded-full flex items-center justify-center"
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="mb-6 opacity-30"
                     >
-                        <ShoppingBag className="w-16 h-16 text-tea-primary" />
+                        <ShoppingBag className="w-12 h-12 mx-auto text-[#1A1A1A]" />
                     </motion.div>
-                    <h2 className="font-display text-3xl font-bold text-foreground mb-4">Your Cart is Empty</h2>
-                    <p className="text-muted-foreground mb-8">Add some amazing tea products to get started!</p>
+                    <h2 className="font-display text-2xl text-[#1A1A1A] mb-3">Your Cart is Empty</h2>
+                    <p className="text-gray-400 mb-8 font-sans text-sm">Explore our estate selection of premium teas.</p>
                     <Link
                         to="/shop"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-foreground text-background rounded-full font-bold hover:bg-tea-primary hover:text-white transition-all hover:shadow-xl hover:-translate-y-1"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A1A1A] text-white rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-[#385040] transition-colors"
                     >
-                        <ArrowLeft className="w-5 h-5" />
-                        Continue Shopping
+                        Start Shopping <ArrowRight className="w-3 h-3" />
                     </Link>
                 </div>
             </div>
@@ -62,166 +66,139 @@ export default function Cart() {
     }
 
     return (
-        <div className="min-h-screen pt-28 sm:pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-background">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-[#F9F9F9] pt-24 pb-20 font-sans text-[#1A1A1A]">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
                 {/* Header */}
-                <div className="mb-12">
-                    <Link
-                        to="/shop"
-                        className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
-                    >
-                        <ArrowLeft className="w-5 h-5" />
-                        Back to Shop
-                    </Link>
-                    <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black text-foreground mb-2">
-                        Shopping <span className="text-tea-primary">Cart</span>
-                    </h1>
-                    <p className="text-muted-foreground text-lg">
-                        {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
-                    </p>
+                <div className="mb-8 flex items-baseline justify-between">
+                    <h1 className="font-display text-3xl font-bold">Shopping Cart</h1>
+                    <span className="text-sm text-gray-500 font-medium">{cartItems.length} Items</span>
                 </div>
 
-                <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Cart Items */}
-                    <div className="lg:col-span-2 space-y-4">
-                        <AnimatePresence>
-                            {cartItems.map((item) => (
-                                <motion.div
-                                    key={item.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, x: -100 }}
-                                    className="bg-white dark:bg-[#1A1A1A] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-tea-primary/10"
-                                >
-                                    <div className="flex flex-col sm:flex-row gap-6">
-                                        {/* Product Image */}
-                                        <Link
-                                            to={`/product/${item.id}`}
-                                            className={`flex-shrink-0 w-full sm:w-32 h-56 sm:h-32 rounded-xl bg-gradient-to-br ${item.bgGradient} dark:from-white/5 dark:to-white/10 flex items-center justify-center overflow-hidden`}
+                <div className="lg:grid lg:grid-cols-12 gap-8 items-start">
+
+                    {/* LEFT: Cart Items List */}
+                    <div className="lg:col-span-8">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            {/* Column Headers (Desktop) */}
+                            <div className="hidden sm:grid grid-cols-12 gap-4 p-4 border-b border-gray-100 bg-gray-50 text-[10px] uppercase tracking-widest font-bold text-gray-400">
+                                <div className="col-span-6">Product</div>
+                                <div className="col-span-3 text-center">Quantity</div>
+                                <div className="col-span-3 text-right">Total</div>
+                            </div>
+
+                            <div className="divide-y divide-gray-100">
+                                <AnimatePresence>
+                                    {cartItems.map((item) => (
+                                        <motion.div
+                                            key={item.id}
+                                            layout
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            className="p-4 sm:p-6"
                                         >
-                                            <img
-                                                src={item.image}
-                                                alt={item.name}
-                                                className="w-full h-full object-cover drop-shadow-xl hover:scale-110 transition-transform"
-                                            />
-                                        </Link>
+                                            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
 
-                                        {/* Product Details */}
-                                        <div className="flex-1">
-                                            <div className="flex justify-between items-start mb-2">
-                                                <div>
-                                                    <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${item.categoryColor}`}>
-                                                        {item.category}
-                                                    </p>
-                                                    <Link to={`/product/${item.id}`}>
-                                                        <h3 className="font-display font-bold text-xl text-foreground hover:text-tea-primary transition-colors">
-                                                            {item.name}
-                                                        </h3>
+                                                {/* Product Info */}
+                                                <div className="sm:col-span-6 flex gap-4">
+                                                    <Link to={`/product/${item.id}`} className="shrink-0 w-20 h-20 sm:w-24 sm:h-24 bg-[#F5F5F0] rounded-lg overflow-hidden border border-gray-100">
+                                                        <img src={item.image} alt={item.name} className="w-full h-full object-cover mix-blend-multiply hover:scale-105 transition-transform duration-500" />
                                                     </Link>
+                                                    <div className="flex flex-col justify-center">
+                                                        <Link to={`/product/${item.id}`} className="font-display text-lg font-bold text-[#1A1A1A] hover:text-[#385040] transition-colors mb-1 line-clamp-1">
+                                                            {item.name}
+                                                        </Link>
+                                                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">{item.category}</span>
+                                                        <button
+                                                            onClick={() => removeItem(item.id)}
+                                                            className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition-colors w-fit"
+                                                        >
+                                                            <Trash2 className="w-3 h-3" /> Remove
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <button
-                                                    onClick={() => removeItem(item.id)}
-                                                    className="p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 text-muted-foreground hover:text-red-500 transition-all"
-                                                >
-                                                    <Trash2 className="w-5 h-5" />
-                                                </button>
-                                            </div>
 
-                                            <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                                                {item.description}
-                                            </p>
-
-                                            <div className="flex flex-wrap items-center justify-between gap-4">
                                                 {/* Quantity Controls */}
-                                                <div className="flex items-center gap-3 bg-background dark:bg-black/20 rounded-full px-4 py-2 border border-border">
-                                                    <button
-                                                        onClick={() => updateQuantity(item.id, -1)}
-                                                        className="p-1 hover:bg-tea-primary/10 rounded-full transition-colors"
-                                                    >
-                                                        <Minus className="w-4 h-4" />
-                                                    </button>
-                                                    <span className="font-bold w-8 text-center">{item.quantity}</span>
-                                                    <button
-                                                        onClick={() => updateQuantity(item.id, 1)}
-                                                        className="p-1 hover:bg-tea-primary/10 rounded-full transition-colors"
-                                                    >
-                                                        <Plus className="w-4 h-4" />
-                                                    </button>
+                                                <div className="sm:col-span-3 flex justify-start sm:justify-center">
+                                                    <div className="flex items-center border border-gray-200 rounded-lg h-9">
+                                                        <button onClick={() => updateQuantity(item.id, -1)} className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-[#1A1A1A] hover:bg-gray-50 rounded-l-lg transition-colors"><Minus className="w-3 h-3" /></button>
+                                                        <span className="w-8 text-center text-sm font-bold text-[#1A1A1A]">{item.quantity}</span>
+                                                        <button onClick={() => updateQuantity(item.id, 1)} className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-[#1A1A1A] hover:bg-gray-50 rounded-r-lg transition-colors"><Plus className="w-3 h-3" /></button>
+                                                    </div>
                                                 </div>
 
                                                 {/* Price */}
-                                                <div className="text-right">
-                                                    <p className="text-2xl font-bold text-foreground">
-                                                        ₹{(item.price * item.quantity).toFixed(2)}
-                                                    </p>
-                                                    <p className="text-xs text-muted-foreground">
-                                                        ₹{item.price.toFixed(2)} each
-                                                    </p>
+                                                <div className="sm:col-span-3 flex justify-between sm:justify-end items-center sm:block">
+                                                    <span className="text-sm font-bold text-gray-500 sm:hidden">Total:</span>
+                                                    <span className="block font-sans text-lg font-bold text-[#1A1A1A] text-right">₹{(item.price * item.quantity).toFixed(2)}</span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </div>
+
+                        <Link to="/shop" className="inline-flex items-center gap-2 mt-6 text-sm font-bold text-gray-500 hover:text-[#385040] transition-colors uppercase tracking-wide">
+                            <ArrowLeft className="w-4 h-4" /> Continue Shopping
+                        </Link>
                     </div>
 
-                    {/* Order Summary */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-gradient-to-br from-white to-tea-primary/5 dark:from-[#1A1A1A] dark:to-[#1F3324] rounded-2xl p-6 shadow-lg border border-tea-primary/10 sticky top-24">
-                            <h2 className="font-display text-2xl font-bold text-foreground mb-6">Order Summary</h2>
+                    {/* RIGHT: Order Summary */}
+                    <div className="lg:col-span-4 mt-8 lg:mt-0">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8 sticky top-32">
+                            <h2 className="font-display text-xl font-bold text-[#1A1A1A] mb-6 border-b border-gray-100 pb-4">Order Summary</h2>
 
                             <div className="space-y-4 mb-6">
-                                <div className="flex justify-between text-muted-foreground">
+                                <div className="flex justify-between text-sm text-gray-600">
                                     <span>Subtotal</span>
-                                    <span className="font-semibold">₹{subtotal.toFixed(2)}</span>
+                                    <span className="font-bold text-[#1A1A1A]">₹{subtotal.toFixed(2)}</span>
                                 </div>
-                                <div className="flex justify-between text-muted-foreground">
-                                    <span>Shipping</span>
-                                    <span className="font-semibold">₹{shipping.toFixed(2)}</span>
+                                <div className="flex justify-between text-sm text-gray-600">
+                                    <span>Shipping Estimate</span>
+                                    <span className={shipping === 0 ? "text-[#385040] font-bold" : "font-bold text-[#1A1A1A]"}>
+                                        {shipping === 0 ? "Free" : `₹${shipping.toFixed(2)}`}
+                                    </span>
                                 </div>
-                                <div className="flex justify-between text-muted-foreground">
-                                    <span>Tax (8%)</span>
-                                    <span className="font-semibold">₹{tax.toFixed(2)}</span>
-                                </div>
-                                <div className="border-t border-border pt-4">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-xl font-bold text-foreground">Total</span>
-                                        <span className="text-3xl font-bold text-tea-primary">₹{total.toFixed(2)}</span>
-                                    </div>
-                                </div>
+                                {shipping === 0 && <p className="text-xs text-green-600 text-right -mt-2">Free shipping applied!</p>}
                             </div>
 
-                            <button className="w-full bg-foreground dark:bg-white text-background dark:text-black py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:bg-tea-primary hover:text-white transition-all hover:-translate-y-1 active:scale-95 mb-4">
-                                Proceed to Checkout
+                            <div className="pt-4 border-t border-gray-100 mb-8">
+                                <div className="flex justify-between items-end">
+                                    <span className="text-base font-bold text-[#1A1A1A]">Total</span>
+                                    <span className="font-display text-3xl font-bold text-[#1A1A1A]">₹{total.toFixed(2)}</span>
+                                </div>
+                                <p className="text-[10px] text-gray-400 text-right mt-1">Inclusive of all taxes</p>
+                            </div>
+
+                            <button className="w-full py-4 bg-[#1A1A1A] text-white rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-[#385040] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-95">
+                                Proceed to Checkout <ArrowRight className="w-4 h-4" />
                             </button>
 
-                            <Link
-                                to="/shop"
-                                className="block text-center text-muted-foreground hover:text-foreground transition-colors text-sm font-semibold"
-                            >
-                                Continue Shopping
-                            </Link>
-
-                            {/* Promo Section */}
-                            <div className="mt-6 pt-6 border-t border-border">
-                                <p className="text-sm font-semibold mb-3">Have a promo code?</p>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter code"
-                                        className="flex-1 px-4 py-2 rounded-full border border-border bg-background focus:outline-none focus:border-tea-primary transition-colors text-sm"
-                                    />
-                                    <button className="px-6 py-2 bg-tea-primary text-white rounded-full font-bold text-sm hover:bg-tea-primary/90 transition-colors">
-                                        Apply
-                                    </button>
-                                </div>
+                            <div className="mt-6 flex items-center justify-center gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                                <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" /> Secure</span>
+                                <span className="flex items-center gap-1.5"><Leaf className="w-3.5 h-3.5" /> Estate Direct</span>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
+            {/* Mobile Fixed Checkout (Hidden on Desktop) */}
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+                <div className="flex items-center justify-between max-w-6xl mx-auto gap-4">
+                    <div className="flex flex-col">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Total</span>
+                        <span className="font-display text-xl font-bold text-[#1A1A1A]">₹{total.toFixed(2)}</span>
+                    </div>
+                    <button className="flex-1 py-3 bg-[#1A1A1A] text-white rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-[#385040] transition-colors flex items-center justify-center gap-2">
+                        Checkout <ArrowRight className="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+
         </div>
     );
 }
