@@ -229,44 +229,48 @@ export const RevealWaveImage = ({
 }) => {
     const [isMouseInCanvas, setIsMouseInCanvas] = useState(false);
     const [aspectRatio, setAspectRatio] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
             setAspectRatio(img.naturalWidth / img.naturalHeight);
+            setIsLoaded(true);
         };
     }, [src]);
 
     return (
         <div
-            className={`relative overflow-hidden ${className}`}
+            className={`relative overflow-hidden bg-gray-100 ${className}`}
             onMouseEnter={() => setIsMouseInCanvas(true)}
             onMouseLeave={() => setIsMouseInCanvas(false)}
         >
             {aspectRatio !== null && (
-                <Canvas
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        display: "block",
-                    }}
-                    gl={{ antialias: false }}
-                    camera={{ position: [0, 0, 1] }}
-                >
-                    <ImagePlane
-                        src={src}
-                        aspectRatio={aspectRatio}
-                        revealRadius={revealRadius}
-                        revealSoftness={revealSoftness}
-                        pixelSize={pixelSize}
-                        waveSpeed={waveSpeed}
-                        waveFrequency={waveFrequency}
-                        waveAmplitude={waveAmplitude}
-                        mouseRadius={mouseRadius}
-                        isMouseInCanvas={isMouseInCanvas}
-                    />
-                </Canvas>
+                <div className={`w-full h-full transition-opacity duration-700 ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                    <Canvas
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            display: "block",
+                        }}
+                        gl={{ antialias: false }}
+                        camera={{ position: [0, 0, 1] }}
+                    >
+                        <ImagePlane
+                            src={src}
+                            aspectRatio={aspectRatio}
+                            revealRadius={revealRadius}
+                            revealSoftness={revealSoftness}
+                            pixelSize={pixelSize}
+                            waveSpeed={waveSpeed}
+                            waveFrequency={waveFrequency}
+                            waveAmplitude={waveAmplitude}
+                            mouseRadius={mouseRadius}
+                            isMouseInCanvas={isMouseInCanvas}
+                        />
+                    </Canvas>
+                </div>
             )}
         </div>
     );

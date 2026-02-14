@@ -66,7 +66,7 @@ export default function Cart() {
     }
 
     return (
-        <div className="min-h-screen bg-[#F9F9F9] pt-24 pb-20 font-sans text-[#1A1A1A]">
+        <div className="min-h-screen bg-[#F9F9F9] pt-24 pb-32 lg:pb-20 font-sans text-[#1A1A1A]">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Header */}
@@ -172,7 +172,7 @@ export default function Cart() {
                                 <p className="text-[10px] text-gray-400 text-right mt-1">Inclusive of all taxes</p>
                             </div>
 
-                            <button className="w-full py-4 bg-[#1A1A1A] text-white rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-[#385040] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-95">
+                            <button className="hidden lg:flex w-full py-4 bg-[#1A1A1A] text-white rounded-lg font-bold uppercase tracking-widest text-xs hover:bg-[#385040] transition-all shadow-md hover:shadow-lg items-center justify-center gap-2 active:scale-95">
                                 Proceed to Checkout <ArrowRight className="w-4 h-4" />
                             </button>
 

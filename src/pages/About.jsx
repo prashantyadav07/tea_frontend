@@ -45,7 +45,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="block text-white/90 text-sm mt-8 md:text-base font-sans font-bold uppercase tracking-[0.3em] mb-4"
+            className="block text-[#FAF9F6] drop-shadow-md text-sm md:text-base font-sans font-bold uppercase tracking-[0.3em] mb-4 mt-20 md:mt-0"
           >
             EST. 1974
           </motion.span>
@@ -53,7 +53,7 @@ export default function About() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-display font-bold text-5xl sm:text-7xl md:text-8xl text-white leading-[0.9] tracking-tight mb-8"
+            className="font-display font-bold text-5xl sm:text-7xl md:text-8xl text-white leading-[0.9] tracking-tight mb-8 drop-shadow-lg"
           >
             Legacy in <br /> <span className="italic font-serif font-medium text-[#D4F57B]">Every Leaf</span>
           </motion.h1>
@@ -61,7 +61,7 @@ export default function About() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-white/80 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed font-light"
+            className="text-white/90 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md"
           >
             50 years of mastery, one family's unwavering promise, and a journey from a bicycle to the world.
           </motion.p>
@@ -75,6 +75,17 @@ export default function About() {
         {/* Vertical Line for Timeline (Desktop) */}
         <div className="absolute left-1/2 top-0 bottom-0 w-px bg-black/5 hidden md:block" />
 
+        {/* Intro Story */}
+        <div className="text-center max-w-4xl mx-auto mb-20">
+          <ScrollReveal>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#1a1a1a] mb-6">Our Story — <span className="italic font-serif text-[#385040]">Born from Legacy, Brewed with Emotion</span></h2>
+            <p className="text-gray-600 text-lg leading-relaxed font-serif">
+              This is not just tea. This is 50 years of legacy, love, and unwavering belief — a legacy built by my father, bold Mr. Pawan Kumar Aggarwal, which I am proud to carry forward as his daughter.
+            </p>
+          </ScrollReveal>
+        </div>
+
+
         {/* Chapter 1: The Beginning */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
           <div className="order-2 md:order-1 md:pr-16 md:text-right">
@@ -82,17 +93,17 @@ export default function About() {
               <span className="text-[#385040] font-bold text-xs uppercase tracking-widest mb-2 block">Chapter I</span>
               <h2 className="font-display text-4xl sm:text-5xl font-bold text-[#1a1a1a] mb-6">A Journey on <br /><span className="italic font-serif text-[#385040]">Two Wheels</span></h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6 font-serif">
-                It began in Sonjani, a small village with big dreams. My father, Mr. Pawan Kumar Aggarwal, arrived in Muzaffarnagar with nothing but courage. No shop, no capital—just a bicycle and a belief.
+                His journey began with nothing but courage and determination. He left his village, Sonjani, and came to Muzaffarnagar in search of work. With no resources, no guarantees — only hope — he started selling tea on a bicycle. One connection at a time. One cup at a time.
               </p>
               <p className="text-gray-600 text-lg leading-relaxed font-serif">
-                He pedaled through the streets, selling tea packet by packet, building relationships cup by cup. It wasn't just commerce; it was connection.
+                Even today, after decades, he remains deeply connected to his work. Tea was never just a business for him — it was a relationship. He knew his vendors personally. He understood tea beyond buying and selling. He understood its soul.
               </p>
             </ScrollReveal>
           </div>
           <div className="order-1 md:order-2 relative">
-            <ScrollReveal delay={0.2} className="relative z-10 w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700">
+            <ScrollReveal delay={0.2} className="relative z-10 w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 bg-gray-200">
               <RevealWaveImage
-                src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=800" // Placeholder for vintage bicycle/father image
+                src="https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=800"
                 alt="Vintage Bicycle"
                 className="w-full h-full object-cover sepia-[0.3]"
               />
@@ -117,7 +128,7 @@ export default function About() {
               "Chaiwalo ka ghar kahan hai?"
             </blockquote>
             <p className="text-white/70 text-lg sm:text-xl font-light font-serif max-w-3xl mx-auto">
-              In our neighborhood, we didn't need an address. Everyone knew us by our craft. Our home was built on tea, known for tea, and filled with the aroma of tea.
+              In our neighborhood, people didn’t ask for our address. They simply asked, “Chaiwalo ka ghar kahan hai?” — and everyone knew. Our identity was built on tea. Our home was known because of tea. And we carried that identity with pride.
             </p>
           </div>
         </ScrollReveal>
@@ -127,11 +138,14 @@ export default function About() {
           <div className="order-1 md:pl-16 relative">
             <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#385040] rounded-full border-4 border-[#FAF9F6] z-20 hidden md:block" />
 
-            <ScrollReveal className="relative z-10 w-full aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white">
+            <ScrollReveal className="relative z-10 w-full aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white bg-gray-200">
               <img
                 src="https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?auto=format&fit=crop&q=80&w=800"
                 alt="Tasting Tea"
+                loading="lazy"
                 className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-1000"
+                onLoad={(e) => e.target.style.opacity = 1}
+                style={{ opacity: 0, transition: 'opacity 0.7s ease-in-out' }}
               />
             </ScrollReveal>
           </div>
@@ -140,26 +154,66 @@ export default function About() {
               <span className="text-[#385040] font-bold text-xs uppercase tracking-widest mb-2 block">Chapter II</span>
               <h2 className="font-display text-4xl sm:text-5xl font-bold text-[#1a1a1a] mb-6">The Soul of <br /><span className="italic font-serif text-[#385040]">The Leaf</span></h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6 font-serif">
-                My childhood was steeped in the scent of fresh leaves. Samples arrived daily. I watched my father taste, critique, and blend.
+                My childhood memories are filled with the aroma of tea. Our home was always surrounded by samples from different tea gardens. We never bought tea packets — tea lived with us. I watched my father taste countless varieties, carefully observing every detail.
+              </p>
+              <p className="text-gray-600 text-lg leading-relaxed font-serif mb-6">
+                He would often say that the true character of tea reveals itself when made under the open sky, in real conditions, with precise measurements — because tea is not just tasted, it is understood.
               </p>
               <p className="text-gray-600 text-lg leading-relaxed font-serif">
-                He taught me that tea isn't just a commodity to be bought and sold. It has a soul. <span className="italic text-[#385040] font-semibold">"Is chai ki baat hi alag hai,"</span> he would say. Honesty in every cup.
+                We grew up with one word at the center of our lives — Chai.
               </p>
             </ScrollReveal>
           </div>
         </div>
+
+        {/* Chapter 3: Trust & Legacy */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
+          <div className="order-2 md:order-1 md:pr-16 md:text-right">
+            <ScrollReveal>
+              <span className="text-[#385040] font-bold text-xs uppercase tracking-widest mb-2 block">Chapter III</span>
+              <h2 className="font-display text-4xl sm:text-5xl font-bold text-[#1a1a1a] mb-6">Trust in <br /><span className="italic font-serif text-[#385040]">Every Cup</span></h2>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6 font-serif">
+                I saw how tea built trust. How people would come once, and then never go anywhere else. They would say, “Aggarwal ji, we will only drink your tea.” Not because he sold tea, but because he served honesty in every cup.
+              </p>
+              <p className="text-gray-600 text-lg leading-relaxed font-serif">
+                Through tea, he built lifelong relationships — from small chai stalls to large corporates. His belief was simple and powerful: “Is chai ki baat hi alag hai.”
+              </p>
+            </ScrollReveal>
+          </div>
+          <div className="order-1 md:order-2 relative">
+            <ScrollReveal delay={0.2} className="relative z-10 w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl -rotate-2 hover:rotate-0 transition-transform duration-700 bg-gray-200">
+              <RevealWaveImage
+                src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=800"
+                alt="Tea Cup"
+                className="w-full h-full object-cover"
+              />
+            </ScrollReveal>
+            {/* Decorative Elements */}
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#385040]/10 rounded-full blur-3xl -z-10" />
+          </div>
+        </div>
+
+
       </div>
 
-      {/* Chapter 3: The Promise (Full Width) */}
+      {/* Chapter 4: The Promise (Full Width) */}
       <div className="max-w-7xl mx-auto px-4 py-20 sm:py-32 relative">
         <div className="py-20 text-center max-w-4xl mx-auto">
           <ScrollReveal>
             <div className="w-20 h-1 bg-[#385040] mx-auto mb-10" />
             <h2 className="font-display text-4xl sm:text-6xl font-bold text-[#1a1a1a] mb-8">A Daughter's <span className="text-[#385040] italic font-serif">Promise</span></h2>
             <p className="text-xl sm:text-2xl text-gray-600 leading-relaxed font-serif mb-12">
-              "To take his legacy forward. To share the warmth of our home with the world. <br />
-              Do Ghoont and TEAVA are not just brands; they are my inheritance of love, mastery, and integrity."
+              Watching his passion, his dedication, and his love for tea, I always carried one dream in my heart — to take his legacy forward and share it with the world.
+              <br /><br />
+              That dream has taken shape today as Do Ghoont and TEAVA — where every sip carries peace, warmth, and emotion.
             </p>
+            <p className="text-lg text-gray-600 leading-relaxed font-serif mb-12">
+              Our promise is simple — tea that travels straight from the gardens to your cup, preserving its true essence — so that every sip feels like your first morning in the tea gardens of Assam.
+            </p>
+            <div className="space-y-4">
+              <p className="italic text-[#385040] text-lg font-serif">For me, this is not a business.</p>
+              <p className="font-bold text-xl text-[#1a1a1a]">This is my identity. This is my inheritance. This is my emotion.</p>
+            </div>
           </ScrollReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16">
@@ -187,6 +241,7 @@ export default function About() {
           <p className="text-white/60 font-serif italic text-xl mb-6">With love and gratitude,</p>
           <h3 className="font-display text-3xl sm:text-5xl text-white font-bold mb-8">The Chaiwala's Daughter</h3>
           <img src={brand} alt="Borsillah Logo" className="h-16 mx-auto opacity-80 brightness-0 invert" />
+          <p className="text-white/40 text-sm mt-8 uppercase tracking-widest">I am, and always will be, proud to be a chaiwala’s daughter.</p>
         </ScrollReveal>
       </section>
 

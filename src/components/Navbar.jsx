@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -176,42 +177,101 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 right-0 mt-2 sm:mt-4 mx-2 sm:mx-4 bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden lg:hidden pointer-events-auto"
-          >
-            <div className="flex flex-col p-6 sm:p-8 gap-4 sm:gap-6">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={({ isActive }) =>
-                    `flex items-center gap-4 text-lg sm:text-xl font-black uppercase tracking-tighter transition-colors ${isActive ? 'text-tea-primary' : 'text-black hover:opacity-75'
-                    }`
-                  }
-                >
-                  <link.icon className="w-5 h-5 sm:w-6 sm:h-6" />
-                  {link.label}
-                </NavLink>
-              ))}
-              <div className="h-[1px] bg-gray-100 my-1 sm:my-2" />
-              <Link
-                to="/login"
+      {/* Mobile Menu Portal */}
+      {createPortal(
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 onClick={() => setIsOpen(false)}
-                className="w-full py-3 sm:py-4 bg-black text-white rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-center text-sm sm:text-base"
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9990] lg:hidden"
+              />
+
+              {/* Side Sheet Drawer */}
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="fixed top-0 left-0 bottom-0 w-[85%] max-w-sm bg-white z-[9999] shadow-2xl lg:hidden overflow-y-auto"
               >
-                Log In
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <div className="p-6 flex flex-col h-full">
+                  {/* Header: Logo + Actions */}
+                  <div className="flex items-center justify-between mb-8">
+                    {/* Brand Logo */}
+                    <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2">
+                      <div className="w-10 h-8 flex items-center justify-center">
+                        <img src={bro} alt="" className="w-full h-full object-contain" />
+                      </div>
+                      <span className="font-sans font-black text-lg tracking-tighter text-black uppercase">
+                        Borsillah
+                      </span>
+                    </Link>
+
+                    {/* Actions: Leaf + Close */}
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={triggerLeafConfetti}
+                        className="w-9 h-9 rounded-full bg-[#D4F57B] flex items-center justify-center cursor-pointer hover:scale-110 transition-transform active:scale-90"
+                      >
+                        <Leaf className="w-4 h-4 text-black" />
+                      </button>
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                      >
+                        <X className="w-6 h-6 text-[#1A1A1A]" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Navigation Links */}
+                  <div className="flex flex-col gap-2">
+                    {navLinks.map((link) => (
+                      <NavLink
+                        key={link.path}
+                        to={link.path}
+                        onClick={() => setIsOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-4 px-4 py-4 rounded-xl text-lg font-bold uppercase tracking-wider transition-all ${isActive
+                            ? 'bg-[#385040] text-white shadow-md'
+                            : 'text-[#1A1A1A] hover:bg-gray-50'
+                          }`
+                        }
+                      >
+                        <link.icon className={`w-5 h-5 ${({ isActive }) => isActive ? 'text-white' : 'text-[#385040]'}`} />
+                        {link.label}
+                      </NavLink>
+                    ))}
+                  </div>
+
+                  {/* Footer Actions */}
+                  <div className="mt-auto pt-8 border-t border-gray-100 space-y-4">
+                    <Link
+                      to="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="w-full flex items-center justify-center gap-2 py-4 bg-[#1A1A1A] text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-[#385040] transition-colors"
+                    >
+                      <User className="w-4 h-4" /> Log In
+                    </Link>
+
+                    <div className="text-center">
+                      <p className="text-[10px] text-gray-400 uppercase tracking-widest">
+                        Est. 1974 • Muzaffarnagar
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </motion.nav>
   );
 }
