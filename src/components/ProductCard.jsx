@@ -2,45 +2,47 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Star, Heart } from 'lucide-react';
 
+
+
 export default function ProductCard({ product, index }) {
     const navigate = useNavigate();
 
-    const {
-        id,
-        name,
-        category,
-        categoryColor,
-        price,
-        originalPrice,
-        rating,
-        image,
-        bgGradient,
-        badge,
-    } = product;
+    // Handle both backend data and potential legacy/dummy structure
+    const id = product._id || product.id;
+    const name = product.name;
+    const category = product.category?.name || product.category || 'Collection';
+    const price = product.variants?.[0]?.price || product.price || 0;
+    const image = product.image;
+
+    // Defaults for fields not in backend yet
+    const rating = product.rating || 4.8;
+    const originalPrice = product.originalPrice || null;
+    const badge = product.badge || (product.variants?.[0]?.stock < 5 ? 'Low Stock' : null);
+    const bgGradient = product.bgGradient || 'from-white to-[#f0fff4]';
+    const categoryColor = product.categoryColor || 'text-tea-primary';
 
     const handleAddToCart = () => {
-        // Get existing cart from localStorage
         const existingCart = localStorage.getItem('teaCart');
         const cart = existingCart ? JSON.parse(existingCart) : [];
-
-        // Check if product already exists in cart
         const existingItemIndex = cart.findIndex(item => item.id === id);
 
+        const cartItem = {
+            id,
+            name,
+            price,
+            image,
+            quantity: 1,
+            variant: product.variants?.[0]
+        };
+
         if (existingItemIndex > -1) {
-            // Increment quantity if item exists
             cart[existingItemIndex].quantity += 1;
         } else {
-            // Add new item to cart with quantity 1
-            cart.push({ ...product, quantity: 1 });
+            cart.push(cartItem);
         }
 
-        // Save updated cart to localStorage
         localStorage.setItem('teaCart', JSON.stringify(cart));
-
-        // Dispatch custom event to update navbar cart count
         window.dispatchEvent(new Event('cartUpdated'));
-
-        // Navigate to cart page
         navigate('/cart');
     };
 
@@ -109,7 +111,7 @@ export default function ProductCard({ product, index }) {
 
                 <div className="mt-auto flex flex-col gap-3">
                     <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-bold text-foreground">₹{price.toFixed(2)}</span>
+                        <span className="text-xl font-bold text-foreground">₹{Number(price).toFixed(2)}</span>
                         {originalPrice && (
                             <span className="text-xs text-muted-foreground line-through decoration-red-400/50">₹{originalPrice.toFixed(2)}</span>
                         )}

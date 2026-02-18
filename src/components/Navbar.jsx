@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail, LogOut, Settings } from 'lucide-react';
+import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail, LogOut, Settings, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
@@ -214,6 +214,11 @@ export default function Navbar() {
                       <p className="text-xs font-bold text-[#385040]">{user?.name}</p>
                       <p className="text-[10px] text-gray-500 truncate">{user?.email}</p>
                     </div>
+                    {user?.role === 'admin' && (
+                      <Link to="/admin/dashboard" className="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold text-amber-600 hover:bg-amber-50 transition-colors uppercase tracking-wider border-b border-gray-50">
+                        <LayoutDashboard className="w-3 h-3" /> Admin Panel
+                      </Link>
+                    )}
                     <Link to="/profile" className="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold text-[#385040] hover:bg-gray-50 transition-colors uppercase tracking-wider">
                       <User className="w-3 h-3" /> Profile
                     </Link>

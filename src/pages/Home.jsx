@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ShieldCheck, Truck, Leaf, Star, Wind, Flame, Bean, Flower2, Utensils, Trees, Mountain } from 'lucide-react';
@@ -7,9 +7,23 @@ import TeaCarousel from '@/components/TeaCarousel';
 import ProductCard from '@/components/ProductCard';
 import brand from '@/assets/brandwo.png';
 import bro from '../assets/bro.png';
-import { teaProducts } from '@/data/products';
+import { productAPI } from '@/services/productAPI';
 
 export default function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await productAPI.getAll();
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products for home", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   const containerRef = useRef(null);
   const collectionsRef = useRef(null);
   const ingredientsRef = useRef(null);
@@ -49,7 +63,7 @@ export default function Home() {
   const heroImageY = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
   const heroImageScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.1]);
 
-  const featuredTeas = teaProducts.slice(0, 4);
+  const featuredTeas = products.slice(0, 4);
 
   // Bounded parallax for Featured Collections
   const { scrollYProgress: collectionsScroll } = useScroll({

@@ -35,6 +35,12 @@ const ShippingPolicy = lazy(() => import('../pages/ShippingPolicy'));
 const Sustainability = lazy(() => import('../pages/Sustainability'));
 const Blog = lazy(() => import('../pages/Blog'));
 
+const AdminLayout = lazy(() => import('../layouts/AdminLayout'));
+const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
+const CategoryManagement = lazy(() => import('../pages/admin/CategoryManagement'));
+const ProductManagement = lazy(() => import('../pages/admin/ProductManagement'));
+const OrdersPage = lazy(() => import('../pages/admin/OrdersPage'));
+
 // Prefetch all page chunks immediately after first render
 function usePrefetchAllRoutes() {
   useEffect(() => {
@@ -55,6 +61,13 @@ function usePrefetchAllRoutes() {
     import('../pages/ShippingPolicy');
     import('../pages/Sustainability');
     import('../pages/Blog');
+
+    // Admin Prefetch
+    import('../layouts/AdminLayout');
+    import('../pages/admin/AdminDashboard');
+    import('../pages/admin/CategoryManagement');
+    import('../pages/admin/ProductManagement');
+    import('../pages/admin/OrdersPage');
   }, []);
 }
 
@@ -92,10 +105,24 @@ export default function AppRoutes() {
 
         {/* Alias for terms */}
         <Route path="terms" element={<Navigate to="/terms-of-service" replace />} />
-
-        {/* 404 Page */}
-        <Route path="*" element={<NotFound />} />
       </Route>
+
+      {/* Admin Routes - Isolated Layout */}
+      <Route path="/admin" element={
+        <ProtectedRoute requiredRole="admin">
+          <AdminLayout />
+        </ProtectedRoute>
+      }>
+        <Route index element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="categories" element={<CategoryManagement />} />
+        <Route path="products" element={<ProductManagement />} />
+        <Route path="orders" element={<OrdersPage />} />
+      </Route>
+
+      {/* 404 Page (Catch all that didn't match above) */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
+

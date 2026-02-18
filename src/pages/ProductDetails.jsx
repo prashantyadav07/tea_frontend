@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Star, ArrowLeft, Minus, Plus, ChevronDown, ChevronUp, Leaf, Check, X, Clock, Thermometer } from 'lucide-react';
-import { teaProducts } from '@/data/products';
+import { productAPI } from '@/services/productAPI';
 import { ScrollReveal } from '@/components/ScrollAnimations';
 
 export default function ProductDetails() {
@@ -14,12 +14,35 @@ export default function ProductDetails() {
     const [activeTab, setActiveTab] = useState('description');
 
     useEffect(() => {
-        const foundProduct = teaProducts.find(p => p.id === parseInt(id));
-        if (foundProduct) {
-            setProduct(foundProduct);
-            window.scrollTo(0, 0);
+        const fetchProductDetails = async () => {
+            try {
+                const { data } = await productAPI.getById(id);
+                // Map backend data to UI structure
+                setProduct({
+                    ...data,
+                    id: data._id,
+                    price: data.variants?.[0]?.price || 0,
+                    category: data.category?.name || 'Collection',
+                    // Defaults for fields not yet in backend
+                    rating: 4.8,
+                    reviews: 128, // Mock count
+                    bgGradient: 'from-amber-50 to-orange-50', // Default light gradient
+                    badge: data.variants?.[0]?.stock < 5 ? 'Low Stock' : null,
+                    brewTime: '3-5 mins',
+                    brewTemp: '85-90°C',
+                    origin: 'Assam, India'
+                });
+                window.scrollTo(0, 0);
+            } catch (error) {
+                console.error("Failed to fetch product details", error);
+                navigate('/shop'); // Redirect to shop on error
+            }
+        };
+
+        if (id) {
+            fetchProductDetails();
         }
-    }, [id]);
+    }, [id, navigate]);
 
     if (!product) return null;
 
