@@ -60,7 +60,7 @@ const sections = [
     },
 ];
 
-export default function PrivacyPolicy() {
+export default function Privacy() {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -71,7 +71,7 @@ export default function PrivacyPolicy() {
     const heroTextY = useTransform(scrollYProgress, [0, 0.3], ['0%', '60%']);
 
     return (
-        <div ref={containerRef} className="bg-[#FAF9F6] min-h-screen overflow-hidden" data-scroll-container>
+        <div ref={containerRef} className="relative bg-[#FAF9F6] min-h-screen overflow-hidden" data-scroll-container>
             {/* HERO */}
             <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
                 <motion.div style={{ y: heroImageY }} className="absolute inset-0 z-0">

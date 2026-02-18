@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail } from 'lucide-react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Menu, X, ShoppingBag, ShoppingCart, Search, User, Leaf, Home, Store, ScrollText, Mail, LogOut, Settings } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import bro from '../assets/bro.png'
@@ -10,6 +11,30 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const profileMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    setIsOpen(false);
+    setShowProfileMenu(false);
+  };
 
   // Update cart count when cart changes
   useEffect(() => {
@@ -160,10 +185,53 @@ export default function Navbar() {
             <Leaf className="w-5 h-5 text-black" />
           </div>
 
-          {/* Login Button (Hidden on mobile) */}
-          <Link to="/login" className="px-8 py-2.5 bg-white border border-gray-200 rounded-full font-bold text-[11px] tracking-widest text-black hover:bg-gray-50 transition-colors uppercase hidden lg:block shadow-sm">
-            Log In
-          </Link>
+          {/* Login Button / Profile Dropdown (Hidden on mobile) */}
+          {isAuthenticated ? (
+            <div className="relative hidden lg:block" ref={profileMenuRef}>
+              <button
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="flex items-center gap-2 px-4 py-2 bg-white/50 border border-gray-200 rounded-full font-bold text-[11px] tracking-widest text-black hover:bg-white transition-all uppercase shadow-sm"
+              >
+                <div className="w-5 h-5 rounded-full bg-[#385040] flex items-center justify-center text-white">
+                  {user?.photo ? (
+                    <img src={user.photo} alt={user.name} className="w-full h-full rounded-full object-cover" />
+                  ) : (
+                    <User className="w-3 h-3" />
+                  )}
+                </div>
+                <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0] || 'User'}</span>
+              </button>
+
+              <AnimatePresence>
+                {showProfileMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden py-1"
+                  >
+                    <div className="px-4 py-3 border-b border-gray-50">
+                      <p className="text-xs font-bold text-[#385040]">{user?.name}</p>
+                      <p className="text-[10px] text-gray-500 truncate">{user?.email}</p>
+                    </div>
+                    <Link to="/profile" className="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold text-[#385040] hover:bg-gray-50 transition-colors uppercase tracking-wider">
+                      <User className="w-3 h-3" /> Profile
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold text-red-500 hover:bg-red-50 transition-colors uppercase tracking-wider"
+                    >
+                      <LogOut className="w-3 h-3" /> Sign Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <Link to="/login" className="px-8 py-2.5 bg-white border border-gray-200 rounded-full font-bold text-[11px] tracking-widest text-black hover:bg-gray-50 transition-colors uppercase hidden lg:block shadow-sm">
+              Log In
+            </Link>
+          )}
 
           {/* Cart Icon */}
           <Link to="/cart" className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-all hover:border-tea-primary group">
@@ -251,13 +319,31 @@ export default function Navbar() {
 
                   {/* Footer Actions */}
                   <div className="mt-auto pt-8 border-t border-gray-100 space-y-4">
-                    <Link
-                      to="/login"
-                      onClick={() => setIsOpen(false)}
-                      className="w-full flex items-center justify-center gap-2 py-4 bg-[#1A1A1A] text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-[#385040] transition-colors"
-                    >
-                      <User className="w-4 h-4" /> Log In
-                    </Link>
+                    {isAuthenticated ? (
+                      <>
+                        <Link
+                          to="/profile"
+                          onClick={() => setIsOpen(false)}
+                          className="w-full flex items-center justify-center gap-2 py-4 bg-[#FAF9F6] text-[#385040] border border-gray-200 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-[#F0EEE6] transition-colors"
+                        >
+                          <User className="w-4 h-4" /> My Profile
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center justify-center gap-2 py-4 bg-red-50 text-red-500 border border-red-100 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-red-100 transition-colors"
+                        >
+                          <LogOut className="w-4 h-4" /> Sign Out
+                        </button>
+                      </>
+                    ) : (
+                      <Link
+                        to="/login"
+                        onClick={() => setIsOpen(false)}
+                        className="w-full flex items-center justify-center gap-2 py-4 bg-[#1A1A1A] text-white rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-[#385040] transition-colors"
+                      >
+                        <User className="w-4 h-4" /> Log In
+                      </Link>
+                    )}
 
                     <div className="text-center">
                       <p className="text-[10px] text-gray-400 uppercase tracking-widest">

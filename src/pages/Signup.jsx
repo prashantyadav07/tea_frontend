@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, CheckCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
@@ -52,16 +53,28 @@ const FloatingInput = ({ icon: Icon, type = 'text', label, value, onChange, id, 
 export default function Signup() {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { register } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate API call
-        setTimeout(() => {
+        setError(null);
+
+        try {
+            const result = await register(formData);
+            if (result.success) {
+                // If registration logs the user in automatically (which our context supports if token is returned)
+                navigate('/shop');
+            } else {
+                setError(result.error);
+            }
+        } catch (err) {
+            setError('Registration failed');
+        } finally {
             setLoading(false);
-            navigate('/login'); // Redirect to login after signup
-        }, 1500);
+        }
     };
 
     return (
@@ -129,6 +142,11 @@ export default function Signup() {
                         onSubmit={handleSubmit}
                         className="space-y-6"
                     >
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+                                {error}
+                            </div>
+                        )}
                         <FloatingInput
                             icon={User}
                             type="text"

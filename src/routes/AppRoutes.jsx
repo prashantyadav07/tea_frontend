@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 // ──────────────────────────────────────────────────────────
 // INDUSTRY-GRADE ROUTING: Lazy + Eager Prefetch
@@ -27,7 +28,8 @@ const Cart = lazy(() => import('../pages/Cart'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const Login = lazy(() => import('../pages/Login'));
 const Signup = lazy(() => import('../pages/Signup'));
-const PrivacyPolicy = lazy(() => import('../pages/PrivacyPolicy'));
+const Profile = lazy(() => import('../pages/Profile'));
+const Privacy = lazy(() => import('../pages/Privacy'));
 const TermsOfService = lazy(() => import('../pages/TermsOfService'));
 const ShippingPolicy = lazy(() => import('../pages/ShippingPolicy'));
 const Sustainability = lazy(() => import('../pages/Sustainability'));
@@ -47,7 +49,8 @@ function usePrefetchAllRoutes() {
     import('../pages/NotFound');
     import('../pages/Login');
     import('../pages/Signup');
-    import('../pages/PrivacyPolicy');
+    import('../pages/Profile');
+    import('../pages/Privacy');
     import('../pages/TermsOfService');
     import('../pages/ShippingPolicy');
     import('../pages/Sustainability');
@@ -67,12 +70,21 @@ export default function AppRoutes() {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="courses" element={<Courses />} />
-        <Route path="cart" element={<Cart />} />
+        <Route path="cart" element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        } />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
 
         {/* Footer Pages */}
-        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="privacy-policy" element={<Privacy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
         <Route path="shipping-policy" element={<ShippingPolicy />} />
         <Route path="sustainability" element={<Sustainability />} />

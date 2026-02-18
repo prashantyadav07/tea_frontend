@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import { Mail, Lock, CheckCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
@@ -52,16 +53,29 @@ const FloatingInput = ({ icon: Icon, type = 'text', label, value, onChange, id, 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
+    const { login } = useAuth();
+    const from = location.state?.from?.pathname || '/shop';
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate API call
-        setTimeout(() => {
+        setError(null);
+
+        try {
+            const result = await login(formData);
+            if (result.success) {
+                navigate(from, { replace: true });
+            } else {
+                setError(result.error);
+            }
+        } catch (err) {
+            setError('An unexpected error occurred');
+        } finally {
             setLoading(false);
-            navigate('/shop');
-        }, 1500);
+        }
     };
 
     return (
@@ -129,6 +143,11 @@ export default function Login() {
                         onSubmit={handleSubmit}
                         className="space-y-6"
                     >
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+                                {error}
+                            </div>
+                        )}
                         <FloatingInput
                             icon={Mail}
                             type="email"

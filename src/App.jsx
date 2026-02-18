@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import ScrollToTop from './components/ScrollToTop';
 import AppRoutes from '@/routes/AppRoutes';
+import { AuthProvider } from './context/AuthContext';
+import { Toaster } from 'sonner';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -41,8 +43,14 @@ export default function App() {
   console.log('[App] Rendering with ScrollToTop');
   return (
     <ErrorBoundary>
-      <ScrollToTop />
-      <AppRoutes />
+      <AuthProvider>
+        <div className="min-h-screen bg-[#FAF9F6] text-[#1a1a1a] font-sans antialiased selection:bg-[#D4F57B] selection:text-[#385040]">
+          <Toaster position="top-center" richColors />
+          {/* ScrollToTop component to handle scroll restoration on route change */}
+          <ScrollToTop />
+          <AppRoutes />
+        </div>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }
